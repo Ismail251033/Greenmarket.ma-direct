@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type { Product } from "@/lib/products";
+import { toast } from "sonner";
 
 export interface CartItem {
   product: Product;
