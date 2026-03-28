@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE_CONFIG, getWhatsAppLink } from "@/lib/config";
+import { SITE_CONFIG } from "@/lib/config";
+import { useCart } from "@/context/CartContext";
 
 const navLinks = [
   { label: "Accueil", href: "#accueil" },
@@ -12,6 +13,7 @@ const navLinks = [
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const { totalItems, setIsOpen } = useCart();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
@@ -27,17 +29,33 @@ const Header = () => {
               {l.label}
             </a>
           ))}
-          <Button asChild>
-            <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer">
-              Commander maintenant
-            </a>
+          <button onClick={() => setIsOpen(true)} className="relative text-foreground/70 hover:text-primary transition-colors">
+            <ShoppingBag className="w-5 h-5" />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs font-bold rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </button>
+          <Button onClick={() => setIsOpen(true)}>
+            Commander maintenant
           </Button>
         </nav>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)} aria-label="Menu">
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile right */}
+        <div className="flex md:hidden items-center gap-3">
+          <button onClick={() => setIsOpen(true)} className="relative text-foreground/70 hover:text-primary transition-colors">
+            <ShoppingBag className="w-5 h-5" />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs font-bold rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </button>
+          <button className="text-foreground" onClick={() => setOpen(!open)} aria-label="Menu">
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile nav */}
@@ -49,10 +67,8 @@ const Header = () => {
                 {l.label}
               </a>
             ))}
-            <Button asChild className="w-full">
-              <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer">
-                Commander maintenant
-              </a>
+            <Button className="w-full" onClick={() => { setOpen(false); setIsOpen(true); }}>
+              Commander maintenant
             </Button>
           </div>
         </nav>
