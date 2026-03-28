@@ -4,7 +4,7 @@
 // ============================================================
 
 export const SITE_CONFIG = {
-  name: "FraiChez Vous",
+  name: "Green Market",
   phone: "+33612345678",
   whatsappMessage: "Bonjour, je souhaite passer une commande de fruits et légumes frais !",
   email: "contact@fraichezvous.com",
