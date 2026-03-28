@@ -37,6 +37,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       return [...prev, { product, quantity: 1 }];
     });
     setIsOpen(true);
+    toast.success(`${product.name} ajouté au panier 🛒`);
   }, []);
 
   const removeItem = useCallback((productId: string) => {
